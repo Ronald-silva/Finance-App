@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  amount      Float
+  description String
+  type        String   // 'income' | 'expense'
+  category    String?
+  date        DateTime @default(now())
+  
+  // Campos para parcelas
+  installments Json? // { total: number, current: number, amount: number, frequency: string, startDate: string, endDate: string }
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+} 
